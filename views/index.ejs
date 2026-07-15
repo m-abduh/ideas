@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Idea Finder</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; min-height: 100vh; }
+    .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+    .header-left h1 { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
+    .header-left p { font-size: 0.85rem; color: #6b7280; margin-top: 2px; }
+    .header-nav { display: flex; gap: 8px; }
+    .header-nav a { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; color: #9ca3af; text-decoration: none; transition: all 0.2s; }
+    .header-nav a:hover { background: #1f1f2e; color: #e0e0e0; }
+    .header-nav a.active { background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; }
+    .action-bar { display: flex; gap: 10px; margin-bottom: 24px; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .btn-primary { background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,0.35); }
+    .btn-save { background: #1f1f2e; color: #9ca3af; border: 1px solid #2a2a3e; }
+    .btn-save:hover { background: #2a2a3e; color: #e0e0e0; }
+    .btn-saved { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+    .btn-saved:hover { background: rgba(239,68,68,0.25); }
+    .btn-danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+    .btn-danger:hover { background: rgba(239,68,68,0.25); }
+    .btn-submit { background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; width: 100%; justify-content: center; }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(124,58,237,0.35); }
+    .section-title { font-size: 1rem; font-weight: 600; color: #d0d0d0; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .section-title svg { width: 18px; height: 18px; }
+    .card { background: #14141f; border: 1px solid #1f1f2e; border-radius: 12px; padding: 18px; margin-bottom: 12px; transition: all 0.2s; }
+    .card:hover { border-color: #2a2a3e; background: #181828; }
+    .card h3 { font-size: 1rem; font-weight: 600; color: #f0f0f0; margin-bottom: 6px; line-height: 1.4; }
+    .card p { color: #8b8fa3; font-size: 0.88rem; line-height: 1.5; margin-bottom: 10px; }
+    .card .meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .card .meta .source { font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; background: rgba(124,58,237,0.12); color: #a78bfa; font-weight: 500; }
+    .card .meta .date { font-size: 0.75rem; color: #5c6070; }
+    .card .actions { margin-top: 10px; display: flex; gap: 8px; }
+    .card .actions form { display: inline; }
+    .nav-date { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: #14141f; border: 1px solid #1f1f2e; border-radius: 12px; margin-bottom: 16px; }
+    .nav-date a { color: #60a5fa; text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-date a:hover { color: #93c5fd; }
+    .nav-date .disabled { color: #3a3a4e; pointer-events: none; }
+    .nav-date strong { color: #d0d0d0; font-size: 0.9rem; }
+    .form-card { background: #14141f; border: 1px solid #1f1f2e; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 500; color: #9ca3af; margin-bottom: 6px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; background: #0d0d16; border: 1px solid #1f1f2e; border-radius: 10px; font-size: 0.9rem; font-family: inherit; color: #e0e0e0; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus { border-color: #7c3aed; }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .empty { text-align: center; padding: 48px 20px; color: #5c6070; }
+    .empty p { margin-bottom: 6px; }
+    .empty .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5; }
+    hr { border: none; border-top: 1px solid #1f1f2e; margin: 24px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <h1>SaaS Idea Finder</h1>
+        <p>Ide SaaS baru tiap hari dari Reddit, IndieHackers, X, GitHub</p>
+      </div>
+      <div class="header-nav">
+        <a href="/" class="active">Home</a>
+        <a href="/saved">Saved</a>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <form action="/generate" method="POST">
+        <button type="submit" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/></svg>
+          Generate Ideas Now
+        </button>
+      </form>
+      <button onclick="this.style.display='none';document.getElementById('submitForm').style.display='block'" class="btn btn-save" style="background:#1f1f2e;color:#9ca3af;border:1px solid #2a2a3e">+ Submit Your Idea</button>
+    </div>
+
+    <div id="submitForm" class="form-card" style="display:none">
+      <div class="section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4v7l9 9 7-7-9-9z"/><path d="M19 8l-3-3"/></svg>
+        Submit Your Idea
+      </div>
+      <form action="/submit" method="POST">
+        <div class="form-group">
+          <label for="name">Idea Name</label>
+          <input type="text" id="name" name="name" placeholder="Contoh: Aplikasi tracker hutang UMKM via WhatsApp" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" placeholder="Deskripsi singkat ide kamu..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-submit">Submit</button>
+      </form>
+    </div>
+
+    <div class="nav-date">
+      <a href="/?date=<%= prevDate %>" class="<%= !hasPrev ? 'disabled' : '' %>">&larr; Sebelumnya</a>
+      <strong><%= currentDate %></strong>
+      <a href="/?date=<%= nextDate %>" class="<%= !hasNext ? 'disabled' : '' %>">Berikutnya &rarr;</a>
+    </div>
+
+    <% if (ideas.length === 0) { %>
+      <div class="empty">
+        <div class="empty-icon">💡</div>
+        <p>Belum ada ide untuk hari ini.</p>
+        <p>Klik <strong>"Generate Ideas Now"</strong> untuk mulai.</p>
+      </div>
+    <% } else { %>
+      <% ideas.forEach(idea => { %>
+        <div class="card">
+          <h3><%= idea.name %></h3>
+          <p><%= idea.description %></p>
+          <div class="meta">
+            <span class="date"><%= new Date(idea.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) %></span>
+          </div>
+          <% if (idea.references && idea.references !== '[]') { %>
+            <% const refs = JSON.parse(idea.references) %>
+            <div style="margin:8px 0;font-size:0.8rem">
+              <% refs.forEach(r => { %>
+                <a href="<%= r.url %>" target="_blank" style="color:#60a5fa;text-decoration:none;display:inline-block;margin-right:12px">&rarr; <%= r.title %></a>
+              <% }) %>
+            </div>
+          <% } %>
+          <div class="actions">
+            <% if (idea.saved) { %>
+              <form action="/unsave/<%= idea.id %>" method="POST">
+                <button type="submit" class="btn btn-saved">Unsave</button>
+              </form>
+            <% } else { %>
+              <form action="/save/<%= idea.id %>" method="POST">
+                <button type="submit" class="btn btn-save">Save</button>
+              </form>
+            <% } %>
+            <button onclick="hapusIde(<%= idea.id %>)" class="btn btn-danger" style="background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.15)">Hapus</button>
+            <% if (idea.prd) { %>
+              <button onclick="copyPRD(this, '<%= encodeURIComponent(idea.prd) %>')" class="btn btn-save" style="background:rgba(16,185,129,0.12);color:#34d399;border:1px solid rgba(16,185,129,0.2)">Copy PRD</button>
+            <% } else { %>
+              <form action="/prd/<%= idea.id %>" method="POST">
+                <button type="submit" class="btn btn-save" style="background:rgba(59,130,246,0.12);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)">Generate PRD</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center">
+    <div style="background:#1a1a2e;border:1px solid #2a2a3e;border-radius:12px;padding:24px;max-width:360px;text-align:center">
+      <p style="margin-bottom:16px;color:#e0e0e0">Hapus ide ini?</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button id="btnHapusYa" class="btn btn-danger" style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.25)">Ya, Hapus</button>
+        <button onclick="document.getElementById('modalHapus').style.display='none'" class="btn btn-save" style="background:#1f1f2e;color:#9ca3af;border:1px solid #2a2a3e">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function hapusIde(id) {
+      const modal = document.getElementById('modalHapus')
+      modal.style.display = 'flex'
+      document.getElementById('btnHapusYa').onclick = async () => {
+        await fetch('/delete/' + id, { method: 'POST' })
+        window.location.reload()
+      }
+    }
+
+    function copyPRD(btn, encoded) {
+      const md = decodeURIComponent(encoded)
+      navigator.clipboard.writeText(md).then(() => {
+        const orig = btn.textContent
+        btn.textContent = 'Copied!'
+        setTimeout(() => btn.textContent = orig, 1500)
+      }).catch(() => alert('Gagal copy PRD'))
+    }
+  </script>
+</body>
+</html>

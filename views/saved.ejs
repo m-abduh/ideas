@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved - SaaS Idea Finder</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.6; min-height: 100vh; }
+    .container { max-width: 800px; margin: 0 auto; padding: 24px; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
+    .header-left h1 { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.02em; }
+    .header-left p { font-size: 0.85rem; color: #6b7280; margin-top: 2px; }
+    .header-nav { display: flex; gap: 8px; }
+    .header-nav a { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; color: #9ca3af; text-decoration: none; transition: all 0.2s; }
+    .header-nav a:hover { background: #1f1f2e; color: #e0e0e0; }
+    .header-nav a.active { background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; }
+    .card { background: #14141f; border: 1px solid #1f1f2e; border-radius: 12px; padding: 18px; margin-bottom: 12px; transition: all 0.2s; }
+    .card:hover { border-color: #2a2a3e; background: #181828; }
+    .card h3 { font-size: 1rem; font-weight: 600; color: #f0f0f0; margin-bottom: 6px; line-height: 1.4; }
+    .card p { color: #8b8fa3; font-size: 0.88rem; line-height: 1.5; margin-bottom: 10px; }
+    .card .meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .card .meta .source { font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; background: rgba(124,58,237,0.12); color: #a78bfa; font-weight: 500; }
+    .card .meta .date { font-size: 0.75rem; color: #5c6070; }
+    .card .actions { margin-top: 10px; display: flex; gap: 8px; }
+    .card .actions form { display: inline; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .btn-danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+    .btn-danger:hover { background: rgba(239,68,68,0.25); }
+    .empty { text-align: center; padding: 48px 20px; color: #5c6070; }
+    .empty p { margin-bottom: 6px; }
+    .empty .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5; }
+    .empty a { color: #60a5fa; text-decoration: none; }
+    .empty a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <h1>Saved Ideas</h1>
+        <p>Ide yang kamu simpan</p>
+      </div>
+      <div class="header-nav">
+        <a href="/">Home</a>
+        <a href="/saved" class="active">Saved</a>
+      </div>
+    </div>
+
+    <% if (ideas.length === 0) { %>
+      <div class="empty">
+        <div class="empty-icon">🔖</div>
+        <p>Belum ada ide yang disimpan.</p>
+        <p>Kembali ke <a href="/">home</a> dan klik "Save" pada ide yang kamu suka.</p>
+      </div>
+    <% } else { %>
+      <% ideas.forEach(idea => { %>
+        <div class="card">
+          <h3><%= idea.name %></h3>
+          <p><%= idea.description %></p>
+          <div class="meta">
+            <span class="date"><%= new Date(idea.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) %></span>
+          </div>
+          <% if (idea.references && idea.references !== '[]') { %>
+            <% const refs = JSON.parse(idea.references) %>
+            <div style="margin:8px 0;font-size:0.8rem">
+              <% refs.forEach(r => { %>
+                <a href="<%= r.url %>" target="_blank" style="color:#60a5fa;text-decoration:none;display:inline-block;margin-right:12px">&rarr; <%= r.title %></a>
+              <% }) %>
+            </div>
+          <% } %>
+          <div class="actions">
+            <form action="/unsave/<%= idea.id %>" method="POST">
+              <button type="submit" class="btn btn-danger">Unsave</button>
+            </form>
+            <button onclick="hapusIde(<%= idea.id %>)" class="btn btn-danger" style="background:rgba(239,68,68,0.08)">Hapus</button>
+            <% if (idea.prd) { %>
+              <button onclick="copyPRD(this, '<%= encodeURIComponent(idea.prd) %>')" class="btn btn-save" style="background:rgba(16,185,129,0.12);color:#34d399;border:1px solid rgba(16,185,129,0.2)">Copy PRD</button>
+            <% } else { %>
+              <form action="/prd/<%= idea.id %>" method="POST">
+                <button type="submit" class="btn btn-save" style="background:rgba(59,130,246,0.12);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)">Generate PRD</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center">
+    <div style="background:#1a1a2e;border:1px solid #2a2a3e;border-radius:12px;padding:24px;max-width:360px;text-align:center">
+      <p style="margin-bottom:16px;color:#e0e0e0">Hapus ide ini?</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button id="btnHapusYa" class="btn btn-danger" style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.25)">Ya, Hapus</button>
+        <button onclick="document.getElementById('modalHapus').style.display='none'" class="btn btn-save" style="background:#1f1f2e;color:#9ca3af;border:1px solid #2a2a3e">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function hapusIde(id) {
+      const modal = document.getElementById('modalHapus')
+      modal.style.display = 'flex'
+      document.getElementById('btnHapusYa').onclick = async () => {
+        await fetch('/delete/' + id, { method: 'POST' })
+        window.location.reload()
+      }
+    }
+
+    function copyPRD(btn, encoded) {
+      const md = decodeURIComponent(encoded)
+      navigator.clipboard.writeText(md).then(() => {
+        const orig = btn.textContent
+        btn.textContent = 'Copied!'
+        setTimeout(() => btn.textContent = orig, 1500)
+      }).catch(() => alert('Gagal copy PRD'))
+    }
+  </script>
+</body>
+</html>
