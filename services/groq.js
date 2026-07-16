@@ -3,38 +3,64 @@ const axios = require('axios')
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
 const MODEL = 'llama-3.3-70b-versatile'
 
+const DOMAINS = [
+  'fintech / keuangan & investasi personal', 'healthtech / kesehatan & mental wellness',
+  'edtech / pendidikan & upskilling', 'legaltech / hukum & perizinan',
+  'proptech / properti & sewa', 'agritech / pertanian & pangan',
+  'logistik & pengiriman', 'foodtech / F&B & restoran',
+  'e-commerce & retail', 'travel & hospitality',
+  'HR tech & rekrutmen', 'insurtech / asuransi',
+  'sustainability / green tech & lingkungan', 'devtools / tools untuk developer',
+  'gamedev & interactive media', 'security & privacy',
+  'creative tools (desain, video, musik)', 'parenting & keluarga',
+  'petcare / hewan peliharaan', 'fitness & olahraga',
+  'automotive / kendaraan & bengkel', 'event management & ticketing',
+  'real estate & konstruksi', 'UMKM & usaha kecil tradisional',
+]
+
+const INSPIRATIONS = [
+  'dari masalah sehari-hari yg mengganggu banyak orang',
+  'dari industri tradisional yg belum tersentuh teknologi',
+  'dari tren global yg baru mulai populer di luar negeri',
+  'dari keluhan yg sering muncul di forum dan komunitas online',
+  'dari hobi atau kegiatan yg belum punya tools digital yg proper',
+  'dari celah di antara dua industri yg belum terhubung',
+  'dari proses manual yg masih pake kertas/Excel padahal skalanya besar',
+]
+
 async function generateIdeas() {
-  const prompt = `Kamu adalah asisten yang menemukan 1 ide SaaS terkuat dan paling spesifik berdasarkan tren teknologi global terkini.
+  const domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)]
+  const inspiration = INSPIRATIONS[Math.floor(Math.random() * INSPIRATIONS.length)]
+  const seed = Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
 
-Gunakan pengetahuanmu dari sumber-sumber LUAR NEGERI ini:
-- Tech news & startup trends (Product Hunt, TechCrunch, Hacker News)
-- GitHub trending repos dan open-source projects
-- Reddit discussions (r/SaaS, r/SideProject, r/startups, r/SomebodyMakeThis)
-- X/Twitter threads tentang building in public
-- IndieHackers stories dan wawancara
+  const prompt = `Kamu adalah asisten yg menemukan 1 ide SaaS paling kuat dan orisinal. Fokus: ${domain}.
 
-Cari inspirasi dari sumber-sumber di ATAS (luar negeri semua), lalu:
-1. Ciptakan 1 ide SaaS yang SANGAT SPESIFIK dan KUAT
-2. Bukan ide generik — aplikasi konkret yang solve masalah Y dengan cara Z yang unik
-3. Pastikan idenya: (a) punya target pasar jelas, (b) monetizable, (c) feasible dibuat 1 developer, (d) beda dari yang sudah ada
-4. Prioritaskan tren global terkini: AI utility, workflow automation, creator economy, productivity
-5. Gunakan BAHASA INDONESIA untuk judul dan deskripsi
-6. Deskripsi 2-3 kalimat
+Ambil inspirasi ${inspiration}. Jangan cuma ngerepol apa yg sudah banyak di pasaran.
 
-PENTING: Judul harus mengandung 2 hal: (1) nama project, (2) untuk siapa. Contoh judul yang benar: "SitusAI — builder landing page untuk freelancer", "ReceiptHub — scan & catat pengeluaran untuk UMKM", "Ngomongin — podcast generator untuk content creator". JANGAN hanya nama project saja.
+HARI INI topik kamu adalah ${domain}. Gali sedalam mungkin di bidang ini. Temukan masalah spesifik yg bisa dipecahkan dengan pendekatan unik.
 
-PENTING: Cantumkan 2-3 link refrensi dari sumber LUAR NEGERI (Product Hunt, GitHub, Reddit, X, IndieHackers, TechCrunch, atau artikel teknologi global) yang mendukung ide ini.
+RULES KETAT:
+- Judul HARUS format: "NamaProject — deskripsi singkat untuk siapa"
+  Contoh: "KandangKu — manajemen pakan & kandang untuk peternak ayam skala kecil"
+  Contoh: "Resepin — rekomendasi menu dari sisa bahan kulkas untuk ibu rumah tangga"
+  Contoh: "SidangIN — scheduling & notifikasi sidang untuk pengacara freelance"
+  JANGAN cuma nama project aja, HARUS ada "— untuk siapa"
+- Deskripsi 3-4 kalimat: jelaskan masalahnya, solusinya, cara kerjanya, dan kenapa beda
+- Ini untuk produk NYATA yg bisa dibangun 1 developer dalam 1-2 minggu
+- Wajib punya model bisnis jelas (bisa monthly subscription, pay-per-use, atau marketplace fee)
+- HARAM: AI chat wrapper, social media scheduler, content repurposer, blog generator, landing page builder, general productivity app, AI note app, todo list, habit tracker, atau variasi lain yg sudah mati
+- Referensi dari sumber nyata: berita tech, riset industri, postingan forum, tweet viral, atau artikel
 
 Output JSON array dengan 1 objek:
 [
   {
-    "name": "NamaProject — untuk Siapa (dalam Bahasa Indonesia)",
-    "description": "Deskripsi dalam Bahasa Indonesia",
+    "name": "NamaProject — untuk Siapa",
+    "description": "Deskripsi 3-4 kalimat dalam Bahasa Indonesia",
     "references": [
-      { "title": "Judul refrensi (English)", "url": "https://..." },
-      { "title": "Judul refrensi (English)", "url": "https://..." }
+      { "title": "Judul referensi", "url": "https://..." },
+      { "title": "Judul referensi", "url": "https://..." }
     ],
-    "sourceUrl": "groq-${Date.now()}-IDX"
+    "sourceUrl": "groq-${seed}-IDX"
   }
 ]
 
@@ -46,7 +72,7 @@ Hanya output JSON, tanpa teks lain.`
       {
         model: MODEL,
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.8,
+        temperature: 1.0,
       },
       {
         headers: {
