@@ -50,14 +50,18 @@ router.post('/generate', async (req, res) => {
     const newIdeas = await generateIdeas()
 
     for (const idea of newIdeas) {
-      await prisma.idea.create({
-        data: {
-          name: idea.name,
-          description: idea.description,
-          sourceUrl: idea.sourceUrl,
-          references: idea.references || '[]',
-        },
-      })
+      try {
+        await prisma.idea.create({
+          data: {
+            name: idea.name,
+            description: idea.description,
+            sourceUrl: idea.sourceUrl,
+            references: idea.references || '[]',
+          },
+        })
+      } catch (e) {
+        if (e.code !== 'P2002') throw e
+      }
     }
 
     res.redirect('/')

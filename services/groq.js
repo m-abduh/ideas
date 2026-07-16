@@ -32,7 +32,7 @@ Output JSON array dengan 1 objek:
       { "title": "Judul refrensi (English)", "url": "https://..." },
       { "title": "Judul refrensi (English)", "url": "https://..." }
     ],
-    "sourceUrl": "groq-${Date.now()}-0"
+    "sourceUrl": "groq-${Date.now()}-IDX"
   }
 ]
 
@@ -57,10 +57,11 @@ Hanya output JSON, tanpa teks lain.`
     const content = response.data.choices[0].message.content.trim()
     const ideas = JSON.parse(content)
 
+    const ts = Date.now()
     return ideas.map((idea, i) => ({
       name: idea.name,
       description: idea.description,
-      sourceUrl: idea.sourceUrl || `groq-${Date.now()}-${i}`,
+      sourceUrl: `groq-${ts}-${i}-${Math.random().toString(36).slice(2,8)}`,
       references: JSON.stringify(idea.references || []),
     }))
   } catch (err) {
