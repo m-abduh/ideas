@@ -12,6 +12,17 @@ Pilih INDUSTRI APA SAJA secara acak — bisa startup trend, industri tradisional
 
 HARI INI kamu harus bener-bener beda dari biasanya. Gali ide yg tidak terpikirkan orang.
 
+TEKNIK UTAMA: KOMBINASIKAN ide/konsep/teknologi yg SUDAH ADA untuk menciptakan inovasi baru. Contoh: "AI voice clone + radio streaming untuk koran bekas → PodcastOtomatis — ubah artikel koran jadi podcast untuk tunanetra". Ambil 2-3 hal yg sudah ada, lalu gabungkan dengan cara yg belum pernah dilakukan. Jangan ciptakan dari nol — remix apa yg sudah terbukti.
+
+Pilih secara acak beberapa elemen untuk dikombinasikan:
+- Budgeting app + AI voice order buat buta → alat transaksi untuk disabilitas netra
+- Barcode scanner + marketplace + rekondisi → jual beli onderdil bekas untuk bengkel kecil
+- Resep masakan + ketersediaan bahan di kulkas + barcode → rekomendasi menu untuk ibu rumah tangga
+- QR code + inventaris + jadwal servis → manajemen aset untuk cleaning service
+- Google Maps + rating + streaming → pilih jasa dengan review realtime untuk pengguna
+
+Buat sendiri kombinasi BARU. Jangan pake contoh di atas.
+
 RULES KETAT:
 - Judul HARUS format: "NamaProject — deskripsi singkat untuk siapa"
   JANGAN cuma nama project aja, HARUS ada "— untuk siapa"
