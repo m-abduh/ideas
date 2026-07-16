@@ -2,6 +2,8 @@ module.exports = {
   apps: [{
     name: 'ideas',
     script: 'app.js',
+    interpreter: 'npx',
+    interpreter_args: 'tsx',
     instances: 1,
     exec_mode: 'fork',
     watch: false,
