@@ -38,7 +38,7 @@ npx prisma db push --accept-data-loss
 
 echo "=== Start with PM2 ==="
 pm2 delete ideas 2>/dev/null || true
-pm2 start app.js --name ideas -i 1 --watch
+pm2 start ecosystem.config.js
 pm2 save
 pm2 startup systemd -u root --hp /root 2>/dev/null || true
 
