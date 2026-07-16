@@ -15,8 +15,11 @@ HARI INI kamu harus bener-bener beda dari biasanya. Gali ide yg tidak terpikirka
 TEKNIK UTAMA: KOMBINASIKAN 2-3 HAL YANG SUDAH ADA untuk menciptakan inovasi baru. Pilih acak dari: teknologi (AI, blockchain, QR, IoT, voice, video, geolocation, dll), konsep (subscription, marketplace, on-demand, gamification, crowdsourcing, dll), industri (apa aja), atau masalah sehari-hari. Lalu gabungkan dengan cara yg belum pernah ada. JANGAN ciptakan dari nol — remix apa yg sudah terbukti.
 
 RULES KETAT:
-- Judul HARUS format: "NamaProject — deskripsi singkat untuk siapa"
-  JANGAN cuma nama project aja, HARUS ada "— untuk siapa"
+- Judul HARUS format: "NamaProject — [kata kerja] [masalah] untuk [target]"
+  Contoh benar: "Resepin — rekomendasi menu dari sisa bahan kulkas untuk ibu rumah tangga"
+  Contoh benar: "SidangIN — jadwal & dokumen sidang otomatis untuk pengacara freelance"
+  Contoh SALAH: "EcoLife — untuk lingkungan" (nggak jelas apanya)
+  Contoh SALAH: "SmartHealth — untuk kesehatan" (terlalu generik)
 - Deskripsi 3-4 kalimat: jelaskan masalahnya, solusinya, cara kerjanya, dan kenapa beda
 - Ini untuk produk NYATA yg bisa dibangun 1 developer dalam 1-2 minggu
 - Wajib punya model bisnis jelas (bisa monthly subscription, pay-per-use, atau marketplace fee)
@@ -26,7 +29,7 @@ RULES KETAT:
 Output JSON array dengan 1 objek:
 [
   {
-    "name": "NamaProject — untuk Siapa",
+    "name": "NamaProject — [kata kerja] [masalah] untuk [target]",
     "description": "Deskripsi 3-4 kalimat dalam Bahasa Indonesia",
     "references": [
       { "title": "Judul referensi", "url": "https://..." },
