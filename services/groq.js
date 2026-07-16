@@ -21,12 +21,14 @@ Cari inspirasi dari sumber-sumber di ATAS (luar negeri semua), lalu:
 5. Gunakan BAHASA INDONESIA untuk judul dan deskripsi
 6. Deskripsi 2-3 kalimat
 
+PENTING: Judul harus mengandung 2 hal: (1) nama project, (2) untuk siapa. Contoh judul yang benar: "SitusAI — builder landing page untuk freelancer", "ReceiptHub — scan & catat pengeluaran untuk UMKM", "Ngomongin — podcast generator untuk content creator". JANGAN hanya nama project saja.
+
 PENTING: Cantumkan 2-3 link refrensi dari sumber LUAR NEGERI (Product Hunt, GitHub, Reddit, X, IndieHackers, TechCrunch, atau artikel teknologi global) yang mendukung ide ini.
 
 Output JSON array dengan 1 objek:
 [
   {
-    "name": "Judul ide dalam Bahasa Indonesia",
+    "name": "NamaProject — untuk Siapa (dalam Bahasa Indonesia)",
     "description": "Deskripsi dalam Bahasa Indonesia",
     "references": [
       { "title": "Judul refrensi (English)", "url": "https://..." },
