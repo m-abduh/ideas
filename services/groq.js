@@ -15,11 +15,11 @@ HARI INI kamu harus bener-bener beda dari biasanya. Gali ide yg tidak terpikirka
 TEKNIK UTAMA: KOMBINASIKAN 2-3 HAL YANG SUDAH ADA untuk menciptakan inovasi baru. Pilih acak dari: teknologi (AI, blockchain, QR, IoT, voice, video, geolocation, dll), konsep (subscription, marketplace, on-demand, gamification, crowdsourcing, dll), industri (apa aja), atau masalah sehari-hari. Lalu gabungkan dengan cara yg belum pernah ada. JANGAN ciptakan dari nol — remix apa yg sudah terbukti.
 
 RULES KETAT:
-- Judul HARUS format: "[Aplikasi/Platform/Tool] [kata kerja] [masalah] untuk [target]"
-  Contoh benar: "Aplikasi rekomendasi menu dari sisa bahan kulkas untuk ibu rumah tangga"
-  Contoh benar: "Platform jadwal & dokumen sidang otomatis untuk pengacara freelance"
-  Contoh benar: "Tool tracking & notifikasi pajak untuk freelancer Indonesia"
-  JANGAN pake nama brand/project seperti "Resepin", "SidangIN", "EcoLife", "SmartHealth", dll
+- Judul HARUS format: "[masalah spesifik] → [solusi SaaS nya]"
+  Contoh benar: "Bingung mau masak dari sisa bahan kulkas → app rekomendasi resep otomatis"
+  Contoh benar: "Dokumen sidang berantakan & sering telat → platform manajemen jadwal & dokumen untuk pengacara"
+  Contoh benar: "Lupa bayar pajak freelancer kena denda → tool tracking & notifikasi pajak otomatis"
+  JANGAN pake nama brand/project kayak "Resepin", "EcoLife", dll
 - Deskripsi 3-4 kalimat: jelaskan masalahnya, solusinya, cara kerjanya, dan kenapa beda
 - Ini untuk produk NYATA yg bisa dibangun 1 developer dalam 1-2 minggu
 - Wajib punya model bisnis jelas (bisa monthly subscription, pay-per-use, atau marketplace fee)
@@ -29,7 +29,7 @@ RULES KETAT:
 Output JSON array dengan 1 objek:
 [
   {
-    "name": "Aplikasi/Platform/Tool [kata kerja] [masalah] untuk [target]",
+    "name": "[masalah] → [solusi SaaS]",
     "description": "Deskripsi 3-4 kalimat dalam Bahasa Indonesia",
     "references": [
       { "title": "Judul referensi", "url": "https://..." },
