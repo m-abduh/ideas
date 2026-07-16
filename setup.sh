@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
 
-APP_DIR=/opt/ideas
-REPO_URL=https://github.com/m-abduh/ideas.git
+APP_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "=== Install dependencies ==="
 apt update && apt install -y curl git
@@ -15,9 +14,7 @@ if ! command -v pm2 &>/dev/null; then
   npm install -g pm2
 fi
 
-echo "=== Clone repo ==="
-git clone $REPO_URL $APP_DIR || (cd $APP_DIR && git pull)
-cd $APP_DIR
+cd "$APP_DIR"
 
 echo "=== Install npm packages ==="
 npm install
